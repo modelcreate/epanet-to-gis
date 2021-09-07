@@ -15,11 +15,12 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "2px",
     borderColor: "#eeeeee",
     borderStyle: "dashed",
+    textAlign: "center",
     backgroundColor: "#f5f5f5",
     color: "#5d5d5d",
     outline: "none",
     transition: "border .24s ease-in-out",
-    minHeight: "200px",
+    minHeight: "450px",
     fontSize: "20px",
     fontFamily: "'Montserrat','Roboto', 'Helvetica', 'Arial', sans-serif",
     fontWeight: 700,
@@ -27,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "-0.24px"
   },
   dropContainer: {
-    padding: "30px"
+    paddingTop: "30px",
+    paddingBottom: "30px",
   }
 
 }));

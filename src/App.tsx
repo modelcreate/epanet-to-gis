@@ -117,7 +117,7 @@ function App() {
 
 
       
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography variant="h3" component="h1" gutterBottom>
             EPANET to GIS
@@ -141,16 +141,19 @@ function App() {
           }
           { epanetGeoJson && svgStrings && loadingData === false &&
             <>
-            <div id="mapArea">
-              <div dangerouslySetInnerHTML={{__html: `<svg id="map" xmlns="http://www.w3.org/2000/svg" width="500" height="500" x="0" y="0">${svgStrings}</svg>`}} /> 
-            </div>
+            <Typography variant="h5" component="h2" gutterBottom>
+              Model Name Here
+            </Typography>
             <div className={classes.root}>
-              <Button variant="contained" color="primary" onClick={() => {toShapeFile(epanetGeoJson)}} >
-                Export as Zip
+              <Button variant="contained"  size="small" color="primary" onClick={() => {toShapeFile(epanetGeoJson)}} >
+                Export as Shapefiles
               </Button>
-              <Button variant="contained" color="primary" onClick={() => { saveGeoJson(epanetGeoJson, "export")}} >
+              <Button variant="contained"  size="small" color="primary" onClick={() => { saveGeoJson(epanetGeoJson, "export")}} >
                 Export as GeoJSON
               </Button>
+            </div>
+            <div id="mapArea">
+              <div dangerouslySetInnerHTML={{__html: `<svg id="map" xmlns="http://www.w3.org/2000/svg" width="500" height="500" x="0" y="0">${svgStrings}</svg>`}} /> 
             </div>
             </>
           }
