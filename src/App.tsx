@@ -13,6 +13,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
 
 import bbox from '@turf/bbox'
 import { toShapeFile } from './util/EpanetGeoJsonToShp';
@@ -31,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
     },
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
 }));
 
@@ -107,36 +115,51 @@ function App() {
   return (
     <Container maxWidth="md">
 
-      <Typography variant="h3" component="h1" gutterBottom>
-        EPANET to GIS
-      </Typography>
-      <Typography variant="body1" gutterBottom>
-        body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-        unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
-        dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-      </Typography>
-      <DropZoneArea setEpanetInp={setEpanetInp} />
-      { loadingData &&
-        <>
-          <CircularProgress />
-          <span>Loading Data...</span>
-        </>
-      }
-      { epanetGeoJson && svgStrings && loadingData === false &&
-        <>
-        <div id="mapArea">
-          <div dangerouslySetInnerHTML={{__html: `<svg id="map" xmlns="http://www.w3.org/2000/svg" width="500" height="500" x="0" y="0">${svgStrings}</svg>`}} /> 
-        </div>
-        <div className={classes.root}>
-          <Button variant="contained" color="primary" onClick={() => {toShapeFile(epanetGeoJson)}} >
-            Export as Zip
-          </Button>
-          <Button variant="contained" color="primary" onClick={() => { saveGeoJson(epanetGeoJson, "export")}} >
-            Export as GeoJSON
-          </Button>
-        </div>
-        </>
-      }
+
+      
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h3" component="h1" gutterBottom>
+            EPANET to GIS
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
+            unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
+            dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <DropZoneArea setEpanetInp={setEpanetInp} />
+        </Grid>
+        <Grid item xs={12} md={6}>
+
+          { loadingData &&
+            <>
+              <CircularProgress />
+              <span>Loading Data...</span>
+            </>
+          }
+          { epanetGeoJson && svgStrings && loadingData === false &&
+            <>
+            <div id="mapArea">
+              <div dangerouslySetInnerHTML={{__html: `<svg id="map" xmlns="http://www.w3.org/2000/svg" width="500" height="500" x="0" y="0">${svgStrings}</svg>`}} /> 
+            </div>
+            <div className={classes.root}>
+              <Button variant="contained" color="primary" onClick={() => {toShapeFile(epanetGeoJson)}} >
+                Export as Zip
+              </Button>
+              <Button variant="contained" color="primary" onClick={() => { saveGeoJson(epanetGeoJson, "export")}} >
+                Export as GeoJSON
+              </Button>
+            </div>
+            </>
+          }
+
+
+
+        </Grid>
+      </Grid>
+
     </Container>
   );
 }
