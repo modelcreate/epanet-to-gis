@@ -1,10 +1,17 @@
 import React, {useState, useMemo, useEffect} from 'react';
-import { toGeoJson } from './util/inpToGeoJson';
-import './App.css';
+
 //@ts-ignore
 import geojson2svg from 'geojson2svg'
 import EpanetGeoJSON from './interfaces/EpanetGeoJson';
 import DropZoneArea from "./components/DropZoneArea"
+
+import { makeStyles } from '@material-ui/core/styles';
+
+import Container from '@material-ui/core/Container';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 
 import bbox from '@turf/bbox'
@@ -19,6 +26,15 @@ import RunToGeoJsonWorker from "worker-loader!./worker/runToGeoJson.worker";
 import { RunToGeoJsonWorkerType } from "./worker/runToGeoJson.worker";
 
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
+
+
 function App() {
 
   const [epanetInp, setEpanetInp] = useState<string | undefined>(
@@ -30,6 +46,8 @@ function App() {
 
   const [loadingData, setLoadingData] = useState<boolean>(false)
 
+  
+  const classes = useStyles();
 
 
   useEffect(() => {
@@ -87,21 +105,39 @@ function App() {
 
 
   return (
-    <div className="App">
+    <Container maxWidth="md">
+
+      <Typography variant="h3" component="h1" gutterBottom>
+        EPANET to GIS
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
+        unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
+        dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
+      </Typography>
       <DropZoneArea setEpanetInp={setEpanetInp} />
       { loadingData &&
-        <span>Loading Data...</span>
+        <>
+          <CircularProgress />
+          <span>Loading Data...</span>
+        </>
       }
       { epanetGeoJson && svgStrings && loadingData === false &&
         <>
         <div id="mapArea">
           <div dangerouslySetInnerHTML={{__html: `<svg id="map" xmlns="http://www.w3.org/2000/svg" width="500" height="500" x="0" y="0">${svgStrings}</svg>`}} /> 
         </div>
-        <button onClick={() => {toShapeFile(epanetGeoJson)}} > Export as Zip </button>
-        <button onClick={() => { saveGeoJson(epanetGeoJson, "export")}} > Export as GeoJSON </button>
+        <div className={classes.root}>
+          <Button variant="contained" color="primary" onClick={() => {toShapeFile(epanetGeoJson)}} >
+            Export as Zip
+          </Button>
+          <Button variant="contained" color="primary" onClick={() => { saveGeoJson(epanetGeoJson, "export")}} >
+            Export as GeoJSON
+          </Button>
+        </div>
         </>
       }
-    </div>
+    </Container>
   );
 }
 

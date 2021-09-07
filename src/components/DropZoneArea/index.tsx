@@ -1,13 +1,44 @@
 import React from 'react';
+import { makeStyles } from "@material-ui/core/styles";
 
 import {useDropzone} from 'react-dropzone';
 
+const useStyles = makeStyles((theme) => ({
+  dropzone: {
+    flex: "1",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "20px",
+    borderWidth: "2px",
+    borderRadius: "2px",
+    borderColor: "#eeeeee",
+    borderStyle: "dashed",
+    backgroundColor: "#f5f5f5",
+    color: "#5d5d5d",
+    outline: "none",
+    transition: "border .24s ease-in-out",
+    minHeight: "200px",
+    fontSize: "20px",
+    fontFamily: "'Montserrat','Roboto', 'Helvetica', 'Arial', sans-serif",
+    fontWeight: 700,
+    lineHeight: 1.2,
+    letterSpacing: "-0.24px"
+  },
+  dropContainer: {
+    padding: "30px"
+  }
+
+}));
 
 interface DropZoneProps {
     setEpanetInp : (inp:string) => void,
   }
 
 function DropZoneArea({ setEpanetInp }: DropZoneProps) {
+
+    const classes = useStyles();
 
     const { getRootProps, getInputProps} = useDropzone({
       onDrop: (files) => {
@@ -28,10 +59,10 @@ function DropZoneArea({ setEpanetInp }: DropZoneProps) {
     
   
     return (
-      <section >
-        <div  {...getRootProps()} >
+      <section   className={classes.dropContainer}>
+        <div className={classes.dropzone}  {...getRootProps()} >
           <input {...getInputProps()} />
-          <p>Drag 'n' drop zip to load model, or click to select file</p>
+          <p>Drag 'n' drop EPANET INP to load model, or click to select file</p>
         </div>
       </section>
     );
