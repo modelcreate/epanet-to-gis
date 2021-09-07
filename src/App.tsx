@@ -35,10 +35,8 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
+  modelName: {
+    textAlign: 'center'
   },
 }));
 
@@ -117,7 +115,9 @@ function App() {
 
 
       
-      <Grid container spacing={3}>
+      <Grid spacing={3} 
+        container
+      >
         <Grid item xs={12}>
           <Typography variant="h3" component="h1" gutterBottom>
             EPANET to GIS
@@ -131,7 +131,7 @@ function App() {
         <Grid item xs={12} md={6}>
           <DropZoneArea setEpanetInp={setEpanetInp} />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} >
 
           { loadingData &&
             <>
@@ -141,17 +141,17 @@ function App() {
           }
           { epanetGeoJson && svgStrings && loadingData === false &&
             <>
-            <Typography variant="h5" component="h2" gutterBottom>
+            <Typography className={classes.modelName} variant="h5" component="h2" gutterBottom>
               Model Name Here
             </Typography>
-            <div className={classes.root}>
+            <Grid container justify="center"className={classes.root}>
               <Button variant="contained"  size="small" color="primary" onClick={() => {toShapeFile(epanetGeoJson)}} >
                 Export as Shapefiles
               </Button>
               <Button variant="contained"  size="small" color="primary" onClick={() => { saveGeoJson(epanetGeoJson, "export")}} >
                 Export as GeoJSON
               </Button>
-            </div>
+            </Grid>
             <div id="mapArea">
               <div dangerouslySetInnerHTML={{__html: `<svg id="map" xmlns="http://www.w3.org/2000/svg" width="500" height="500" x="0" y="0">${svgStrings}</svg>`}} /> 
             </div>

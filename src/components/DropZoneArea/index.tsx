@@ -28,8 +28,6 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "-0.24px"
   },
   dropContainer: {
-    paddingTop: "30px",
-    paddingBottom: "30px",
   }
 
 }));
