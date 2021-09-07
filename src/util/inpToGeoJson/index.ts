@@ -78,7 +78,7 @@ export function toGeoJson(inpFile: string): EpanetGeoJSON {
     },
     [] as LinkFeature[]
   );
-  console.log(links);
+
 
   if (data.errors.length > 0) {
     console.log(data.errors);
