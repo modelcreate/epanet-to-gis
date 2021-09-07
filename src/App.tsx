@@ -62,7 +62,7 @@ function App() {
         { 
           viewportSize: {width:800,height:800},
           attributes: {
-            'style': 'stroke:#000000; fill: #0000FF;stroke-width:1px;',
+            'style': 'stroke:#000000; stroke-width:1px;',
             'vector-effect':'non-scaling-stroke'
           },
           explode: false,
