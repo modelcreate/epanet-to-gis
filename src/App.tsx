@@ -1,24 +1,59 @@
 import React from 'react';
 import logo from './logo.svg';
+import { toGeoJson } from './util/inpToGeoJson';
+import { net1 } from './data/net1';
 import './App.css';
+//@ts-ignore
+import geojson2svg from 'geojson2svg'
+
+import { parse } from 'svg-parser';
+import bbox from '@turf/bbox'
+import { toShapeFile } from './util/EpanetGeoJsonToShp';
+
+
+const geoJson = toGeoJson(net1)
+
+
+const extents = bbox(geoJson)
+const [left, bottom, right, top] = extents
+
+const converter = geojson2svg(
+  { 
+    viewportSize: {width:800,height:800},
+    attributes: {
+      'style': 'stroke:#000000; fill: #0000FF;stroke-width:1px;',
+      'vector-effect':'non-scaling-stroke'
+    },
+    explode: false,
+    mapExtent: {
+      
+    left,
+    right,
+    bottom,
+    top
+    }
+  }
+);
+
+
+
+let svgStrings:string[] = converter.convert(geoJson)
+
+
+var svgElements = svgStrings.map(function(svgString) {
+  return  parse(svgString)
+})
+
+
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="mapArea">
+        <div dangerouslySetInnerHTML={{__html: `<svg id="map" xmlns="http://www.w3.org/2000/svg" width="500" height="500" x="0" y="0">${svgStrings}</svg>`}} /> 
+      </div>
+      <button onClick={() => {toShapeFile(geoJson)}} > Export as Zip </button>
     </div>
   );
 }
