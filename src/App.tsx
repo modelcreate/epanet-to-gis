@@ -185,7 +185,7 @@ function App() {
               </Button>
             </Grid>
             <div id="mapArea">
-              <div dangerouslySetInnerHTML={{__html: `<svg id="map" xmlns="http://www.w3.org/2000/svg" width="500" height="500" x="0" y="0">${svgStrings}</svg>`}} /> 
+              <div dangerouslySetInnerHTML={{__html: `<svg id="map" xmlns="http://www.w3.org/2000/svg" width="100%" height="350" viewBox="0 0 800 800">${svgStrings}</svg>`}} /> 
             </div>
             </>
           }
