@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 
-import {useDropzone} from 'react-dropzone';
+import {FileWithPath, useDropzone} from 'react-dropzone';
 
 const useStyles = makeStyles((theme) => ({
   dropzone: {
@@ -34,14 +34,16 @@ const useStyles = makeStyles((theme) => ({
 
 interface DropZoneProps {
     setEpanetInp : (inp:string) => void,
+    setModelFilename : (inp:string) => void,
   }
 
-function DropZoneArea({ setEpanetInp }: DropZoneProps) {
+function DropZoneArea({ setEpanetInp, setModelFilename }: DropZoneProps) {
 
     const classes = useStyles();
 
-    const { getRootProps, getInputProps} = useDropzone({
-      onDrop: (files) => {
+    const { acceptedFiles, getRootProps, getInputProps} = useDropzone({
+      onDrop: (files: FileWithPath[]) => {
+
         const reader = new FileReader()
 
         reader.onabort = () => console.log('file reading was aborted')
@@ -53,7 +55,8 @@ function DropZoneArea({ setEpanetInp }: DropZoneProps) {
         }
         
         reader.readAsText(files[0]);
-        
+        //Regex removes extension
+        setModelFilename(files[0].name.replace(/\.[^/.]+$/, ""))
       }
     });
     

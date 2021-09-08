@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver';
 
 
 
-export function toShapeFile(geoJson: EpanetGeoJSON) {
+export function toShapeFile(geoJson: EpanetGeoJSON, filename: string) {
 
     // TODO: This could be DRY
 
@@ -57,7 +57,7 @@ export function toShapeFile(geoJson: EpanetGeoJSON) {
         compression: 'DEFLATE'
       }).then(function(content) {
           console.log(content)
-          saveAs(content, 'export.zip');
+          saveAs(content, `${filename}.zip`);
         });
 
 }

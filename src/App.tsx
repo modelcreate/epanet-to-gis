@@ -49,6 +49,7 @@ function App() {
   const [epanetGeoJson, setEpanetGeoJson] = useState<EpanetGeoJSON | undefined>(
     undefined
   );
+  const [modelFilename, setModelFilename] = useState<string>("");
 
   const [loadingData, setLoadingData] = useState<boolean>(false)
 
@@ -129,7 +130,7 @@ function App() {
           </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
-          <DropZoneArea setEpanetInp={setEpanetInp} />
+          <DropZoneArea setEpanetInp={setEpanetInp} setModelFilename={setModelFilename} />
         </Grid>
         <Grid item xs={12} md={6} >
 
@@ -142,13 +143,13 @@ function App() {
           { epanetGeoJson && svgStrings && loadingData === false &&
             <>
             <Typography className={classes.modelName} variant="h5" component="h2" gutterBottom>
-              Model Name Here
+              {modelFilename}
             </Typography>
             <Grid container justify="center"className={classes.root}>
-              <Button variant="contained"  size="small" color="primary" onClick={() => {toShapeFile(epanetGeoJson)}} >
+              <Button variant="contained"  size="small" color="primary" onClick={() => {toShapeFile(epanetGeoJson, modelFilename)}} >
                 Export as Shapefiles
               </Button>
-              <Button variant="contained"  size="small" color="primary" onClick={() => { saveGeoJson(epanetGeoJson, "export")}} >
+              <Button variant="contained"  size="small" color="primary" onClick={() => { saveGeoJson(epanetGeoJson, modelFilename)}} >
                 Export as GeoJSON
               </Button>
             </Grid>
