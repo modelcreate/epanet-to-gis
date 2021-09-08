@@ -65,8 +65,8 @@ function DropZoneArea({ setEpanetInp, setModelFilename }: DropZoneProps) {
         reader.onerror = () => console.log('file reading has failed')
         reader.onload = () => {
         // Do whatever you want with the file contents
-          const binaryStr = reader.result  as string;
-          setEpanetInp(binaryStr)
+          const inpFile = reader.result  as string;
+          setEpanetInp(inpFile)
         }
         
         reader.readAsText(files[0]);
@@ -83,7 +83,7 @@ function DropZoneArea({ setEpanetInp, setModelFilename }: DropZoneProps) {
       <section   className={classes.dropContainer}>
         <div className={classes.dropzone}  {...getRootProps()} >
           <input {...getInputProps()} />
-          <p>Drag 'n' drop EPANET INP to load model, or click to select file</p>
+          <p>Drop an EPANET model here, or click to select file</p>
         </div>
       </section>
     );

@@ -79,7 +79,9 @@ export function toGeoJson(inpFile: string): EpanetGeoJSON {
     [] as LinkFeature[]
   );
 
-
+  if (data.linkIndex === 0 && data.nodeIndex === 0) {
+    throw "Reading INP Failed, no link or nodes found"
+  }
   if (data.errors.length > 0) {
     console.log(data.errors);
   }
