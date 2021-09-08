@@ -1,11 +1,13 @@
 import React from 'react';
 import { Theme } from '@material-ui/core';
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme  } from "@material-ui/core/styles";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import {FileWithPath, useDropzone} from 'react-dropzone';
 
 interface DropzoneStyleProps {
   borderColor: string;
+  minHeight: string;
 }
 
 
@@ -26,7 +28,7 @@ const useStyles = makeStyles<Theme, DropzoneStyleProps>((theme: Theme) => ({
     color: "#5d5d5d",
     outline: "none",
     transition: "border .24s ease-in-out",
-    minHeight: "450px",
+    minHeight:  props.minHeight,
     fontSize: "20px",
     fontFamily: "'Montserrat','Roboto', 'Helvetica', 'Arial', sans-serif",
     fontWeight: 700,
@@ -75,7 +77,13 @@ function DropZoneArea({ setEpanetInp, setModelFilename }: DropZoneProps) {
       }
     });
 
-    const styleProps:DropzoneStyleProps = { borderColor: isDragActive ? isDragAccept ? "#2196f3": '#ff1744': "#eeeeee"  };
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('md'));
+
+    const styleProps:DropzoneStyleProps = { 
+      borderColor: isDragActive ? isDragAccept ? "#2196f3": '#ff1744': "#eeeeee",
+      minHeight: matches?  "450px":  "200px",
+    };
     const classes = useStyles(styleProps);
     
   

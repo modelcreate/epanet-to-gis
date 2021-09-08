@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
-
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 import bbox from '@turf/bbox'
 import { toShapeFile } from './util/EpanetGeoJsonToShp';
@@ -40,7 +40,10 @@ const useStyles = makeStyles((theme) => ({
   },
   loadingDataLabel: {
     paddingTop:"10px"
-  }
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 function Alert(props: AlertProps) {
@@ -149,13 +152,33 @@ function App() {
             EPANET to GIS
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Create ESRI Shapefiles or GeoJSON files of an EPANET hydraulic model. Either drag an INP into the drop zone
-            below or click the area to open a prompt to select the file. All geoprocessing is done locally and not data is sent to the server.
+            Create Shapefiles or GeoJSON files of an EPANET hydraulic model. Either drag an INP into the drop zone
+            below or click the area to open a prompt to select the file. All geoprocessing is done locally and no data is sent to the server.
           </Typography>
           <Typography variant="body1" gutterBottom>
-            This app is open-source and you can find the source code on GitHub, the app uses epanet-js a javascript
+            This app is open-source and you can find the source code on GitHub, if submit any problems as issues on GitHub. The app uses epanet-js, a javascript
             conversion of the owa-epanet library, links to both projects are below. 
           </Typography>
+          <Button
+            variant="contained"
+            color="default"
+            size="small" 
+            className={classes.button}
+            startIcon={<GitHubIcon />}
+            href="https://github.com/modelcreate/epanet-to-gis"
+          >
+            epanet-to-gis
+          </Button>
+          <Button
+            variant="contained"
+            color="default"
+            size="small" 
+            className={classes.button}
+            startIcon={<GitHubIcon />}
+            href="https://github.com/modelcreate/epanet-js"
+          >
+            epanet-js
+          </Button>
         </Grid>
         <Grid item xs={12} md={6}>
           <DropZoneArea setEpanetInp={setEpanetInp} setModelFilename={setModelFilename} />
