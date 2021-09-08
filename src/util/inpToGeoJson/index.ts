@@ -61,6 +61,8 @@ export function toGeoJson(inpFile: string): EpanetGeoJSON {
   //  const fc = featureCollection(nodeFeatures.concat(linkFeatures));
   //  console.log(fc);
 
+
+
   const links = (Object.keys(data.links) as Array<keyof LinkLookup>).reduce(
     (acc, l) => {
       const link = data.links[l];
@@ -68,13 +70,18 @@ export function toGeoJson(inpFile: string): EpanetGeoJSON {
       const usGeometry = data.nodes[usNodeId].geometry.coordinates;
       const dsGeometry = data.nodes[dsNodeId].geometry.coordinates;
 
-      return acc.concat({
-        ...link,
-        geometry: {
-          ...link.geometry,
-          coordinates: [usGeometry, ...link.geometry.coordinates, dsGeometry],
-        },
-      });
+
+      link.geometry.coordinates = [usGeometry, ...link.geometry.coordinates, dsGeometry]
+
+      return acc.concat(link)
+
+      //return acc.concat({
+      //  ...link,
+      //  geometry: {
+      //    ...link.geometry,
+      //    coordinates: [usGeometry, ...link.geometry.coordinates, dsGeometry],
+      //  },
+      //});
     },
     [] as LinkFeature[]
   );
@@ -221,14 +228,11 @@ function junctions(
     },
   };
 
-  return {
-    ...epanetData,
-    nodes: {
-      ...epanetData.nodes,
-      [id]: junction,
-    },
-    nodeIndex: epanetData.nodeIndex + 1,
-  };
+  epanetData.nodes[id] = junction
+  epanetData.nodeIndex++
+
+  return epanetData
+
 }
 
 function reservoirs(
@@ -261,14 +265,10 @@ function reservoirs(
     },
   };
 
-  return {
-    ...epanetData,
-    nodes: {
-      ...epanetData.nodes,
-      [id]: reservior,
-    },
-    nodeIndex: epanetData.nodeIndex + 1,
-  };
+  epanetData.nodes[id] = reservior
+  epanetData.nodeIndex++
+  return epanetData
+
 }
 
 function tanks(
@@ -382,14 +382,12 @@ function pipes(
     },
   };
 
-  return {
-    ...epanetData,
-    links: {
-      ...epanetData.links,
-      [id]: pipe,
-    },
-    linkIndex: epanetData.linkIndex + 1,
-  };
+
+  epanetData.links[id] = pipe
+  epanetData.linkIndex++
+
+  return epanetData
+
 }
 
 function pumps(
@@ -471,14 +469,11 @@ function valves(
     },
   };
 
-  return {
-    ...epanetData,
-    links: {
-      ...epanetData.links,
-      [id]: valve,
-    },
-    linkIndex: epanetData.linkIndex + 1,
-  };
+  epanetData.links[id] = valve
+  epanetData.linkIndex++
+
+  return epanetData
+
 }
 
 function coordinates(

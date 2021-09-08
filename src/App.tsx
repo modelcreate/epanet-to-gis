@@ -125,7 +125,6 @@ function App() {
         }
       );
   
-  
       return converter.convert(epanetGeoJson)
 
     }
