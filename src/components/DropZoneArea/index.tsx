@@ -1,10 +1,16 @@
 import React from 'react';
+import { Theme } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 
 import {FileWithPath, useDropzone} from 'react-dropzone';
 
-const useStyles = makeStyles((theme) => ({
-  dropzone: {
+interface DropzoneStyleProps {
+  borderColor: string;
+}
+
+
+const useStyles = makeStyles<Theme, DropzoneStyleProps>((theme: Theme) => ({
+  dropzone: props => ({
     flex: "1",
     display: "flex",
     flexDirection: "column",
@@ -13,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "20px",
     borderWidth: "2px",
     borderRadius: "2px",
-    borderColor: "#eeeeee",
+    borderColor: props.borderColor,//"#eeeeee",
     borderStyle: "dashed",
     textAlign: "center",
     backgroundColor: "#f5f5f5",
@@ -26,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     lineHeight: 1.2,
     letterSpacing: "-0.24px"
-  },
+  }),
   dropContainer: {
   }
 
@@ -39,9 +45,18 @@ interface DropZoneProps {
 
 function DropZoneArea({ setEpanetInp, setModelFilename }: DropZoneProps) {
 
-    const classes = useStyles();
+    
 
-    const { acceptedFiles, getRootProps, getInputProps} = useDropzone({
+    
+
+    const { 
+      isDragAccept,
+      isDragActive,
+      getRootProps,
+      getInputProps
+    } = useDropzone({
+      maxFiles:1,
+      multiple:false,
       onDrop: (files: FileWithPath[]) => {
 
         const reader = new FileReader()
@@ -59,6 +74,9 @@ function DropZoneArea({ setEpanetInp, setModelFilename }: DropZoneProps) {
         setModelFilename(files[0].name.replace(/\.[^/.]+$/, ""))
       }
     });
+
+    const styleProps:DropzoneStyleProps = { borderColor: isDragActive ? isDragAccept ? "#2196f3": '#ff1744': "#eeeeee"  };
+    const classes = useStyles(styleProps);
     
   
     return (

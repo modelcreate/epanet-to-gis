@@ -145,7 +145,7 @@ function App() {
             <Typography className={classes.modelName} variant="h5" component="h2" gutterBottom>
               {modelFilename}
             </Typography>
-            <Grid container justify="center"className={classes.root}>
+            <Grid container justifyContent="center"className={classes.root}>
               <Button variant="contained"  size="small" color="primary" onClick={() => {toShapeFile(epanetGeoJson, modelFilename)}} >
                 Export as Shapefiles
               </Button>
