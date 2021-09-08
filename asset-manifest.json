@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.js": "/static/js/main.370f29ce.chunk.js",
+    "main.js.map": "/static/js/main.370f29ce.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.5c7e07ec.js",
+    "runtime-main.js.map": "/static/js/runtime-main.5c7e07ec.js.map",
+    "static/js/2.c0dc0d81.chunk.js": "/static/js/2.c0dc0d81.chunk.js",
+    "static/js/2.c0dc0d81.chunk.js.map": "/static/js/2.c0dc0d81.chunk.js.map",
+    "static/js/3.1271ae10.chunk.js": "/static/js/3.1271ae10.chunk.js",
+    "static/js/3.1271ae10.chunk.js.map": "/static/js/3.1271ae10.chunk.js.map",
+    "index.html": "/index.html",
+    "static/js/2.c0dc0d81.chunk.js.LICENSE.txt": "/static/js/2.c0dc0d81.chunk.js.LICENSE.txt",
+    "static/js/runToGeoJson.worker.0c726cc0.worker.js": "/static/js/runToGeoJson.worker.0c726cc0.worker.js",
+    "static/js/runToGeoJson.worker.0c726cc0.worker.js.map": "/static/js/runToGeoJson.worker.0c726cc0.worker.js.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5c7e07ec.js",
+    "static/js/2.c0dc0d81.chunk.js",
+    "static/js/main.370f29ce.chunk.js"
+  ]
+}
