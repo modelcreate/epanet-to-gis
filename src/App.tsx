@@ -28,7 +28,6 @@ import * as Comlink from "comlink";
 import RunToGeoJsonWorker from "worker-loader!./worker/runToGeoJson.worker";
 import { RunToGeoJsonWorkerType } from "./worker/runToGeoJson.worker";
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
