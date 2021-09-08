@@ -16,6 +16,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import Link from '@material-ui/core/Link';
+
 
 import bbox from '@turf/bbox'
 import { toShapeFile } from './util/EpanetGeoJsonToShp';
@@ -150,12 +152,15 @@ function App() {
             EPANET to GIS
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Convert an EPANET hydraulic model to shapefiles or a GeoJSON file. Either drag an INP into the drop zone
-            below or click the area to open a prompt to select the file. All geoprocessing is done locally and no data is sent to the server.
+            Convert an EPANET hydraulic model to shapefiles or a GeoJSON file. Either drag an INP
+            into the drop zone below or click the area to open a prompt to select the file. All 
+            geoprocessing is done locally and no data is sent to the server.
           </Typography>
           <Typography variant="body1" gutterBottom>
-            This app is open-source and you can find the source code on GitHub, if submit any problems as issues on GitHub. The app uses epanet-js, a javascript
-            conversion of the owa-epanet library, links to both projects are below. 
+            This app is open-source and you can find the source code on GitHub, if you have any 
+            problems, please submit as an <Link href="https://github.com/modelcreate/epanet-to-gis/issues">issue on GitHub</Link>. 
+             The app was created by <Link href="https://www.linkedin.com/in/lukepbutler/">Luke Butler</Link> and uses epanet-js, 
+             a javascript conversion of the owa-epanet library, links to both projects are below. 
           </Typography>
           <Button
             variant="contained"
