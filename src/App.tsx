@@ -150,7 +150,7 @@ function App() {
             EPANET to GIS
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Create Shapefiles or GeoJSON files of an EPANET hydraulic model. Either drag an INP into the drop zone
+            Convert an EPANET hydraulic model to shapefiles or a GeoJSON file. Either drag an INP into the drop zone
             below or click the area to open a prompt to select the file. All geoprocessing is done locally and no data is sent to the server.
           </Typography>
           <Typography variant="body1" gutterBottom>

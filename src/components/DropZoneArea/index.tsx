@@ -91,7 +91,7 @@ function DropZoneArea({ setEpanetInp, setModelFilename }: DropZoneProps) {
       <section   className={classes.dropContainer}>
         <div className={classes.dropzone}  {...getRootProps()} >
           <input {...getInputProps()} />
-          <p>Drop an EPANET model here, or click to select file</p>
+          <p>Drop an EPANET model here, or click to select a file</p>
         </div>
       </section>
     );
