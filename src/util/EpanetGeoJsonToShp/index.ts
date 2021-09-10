@@ -13,43 +13,60 @@ export function toShapeFile(geoJson: EpanetGeoJSON, filename: string) {
     const zip = new JSZip()
 
     const pipes = geoJson.features.filter( f => f.properties.category === "Pipe")
-    const pipesGeom = pipes.map( f => [f.geometry.coordinates])
-    const pipesData = pipes.map( f => f.properties)
 
-    shpWrite.write( pipesData , 'POLYLINE', pipesGeom, addFilesToZip("pipes", zip))
+    if(pipes.length >0 ){
+        const pipesGeom = pipes.map( f => [f.geometry.coordinates])
+        const pipesData = pipes.map( f => f.properties)
+
+        shpWrite.write( pipesData , 'POLYLINE', pipesGeom, addFilesToZip("pipes", zip))
+    }
 
     const valves = geoJson.features.filter( f => f.properties.category === "Valve")
-    const valvesGeom = valves.map( f => [f.geometry.coordinates])
-    const valvesData = valves.map( f => f.properties)
 
-    shpWrite.write( valvesData , 'POLYLINE', valvesGeom, addFilesToZip("valves", zip))
+    if(valves.length >0 ){
+        const valvesGeom = valves.map( f => [f.geometry.coordinates])
+        const valvesData = valves.map( f => f.properties)
+        shpWrite.write( valvesData , 'POLYLINE', valvesGeom, addFilesToZip("valves", zip))
+    }
 
-    const pumps = geoJson.features.filter( f => f.properties.category === "Valve")
-    const pumpsGeom = pumps.map( f => [f.geometry.coordinates])
-    const pumpsData = pumps.map( f => f.properties)
+    const pumps = geoJson.features.filter( f => f.properties.category === "Pump")
 
-    shpWrite.write( pumpsData , 'POLYLINE', pumpsGeom, addFilesToZip("valves", zip))
+    if(pumps.length >0 ){
+        const pumpsGeom = pumps.map( f => [f.geometry.coordinates])
+        const pumpsData = pumps.map( f => f.properties)
+        shpWrite.write( pumpsData , 'POLYLINE', pumpsGeom, addFilesToZip("pumps", zip))
+    }
+
 
 
     const junctions = geoJson.features.filter( f => f.properties.category === "Junction")
-    const junctionsGeom = junctions.map( f => f.geometry.coordinates)
-    const junctionsData = junctions.map( f => f.properties)
+    
+    if(junctions.length >0 ){
+        const junctionsGeom = junctions.map( f => f.geometry.coordinates)
+        const junctionsData = junctions.map( f => f.properties)
 
-    shpWrite.write( junctionsData, 'POINT', junctionsGeom, addFilesToZip("junctions", zip))
+        shpWrite.write( junctionsData, 'POINT', junctionsGeom, addFilesToZip("junctions", zip))
+    }
+
 
 
     const tanks = geoJson.features.filter( f => f.properties.category === "Tank")
-    const tanksGeom = tanks.map( f => f.geometry.coordinates)
-    const tanksData = tanks.map( f => f.properties)
+    if(tanks.length >0 ){
+        const tanksGeom = tanks.map( f => f.geometry.coordinates)
+        const tanksData = tanks.map( f => f.properties)
 
-    shpWrite.write( tanksData, 'POINT', tanksGeom, addFilesToZip("tanks", zip))
+        shpWrite.write( tanksData, 'POINT', tanksGeom, addFilesToZip("tanks", zip))
+    }
 
 
     const reservior = geoJson.features.filter( f => f.properties.category === "Reservior")
-    const reserviorGeom = reservior.map( f => f.geometry.coordinates)
-    const reserviorData = reservior.map( f => f.properties)
+    if(reservior.length >0 ){
+        const reserviorGeom = reservior.map( f => f.geometry.coordinates)
+        const reserviorData = reservior.map( f => f.properties)
+        
+        shpWrite.write( reserviorData, 'POINT', reserviorGeom, addFilesToZip("reserviors", zip))
+    }
 
-    shpWrite.write( reserviorData, 'POINT', reserviorGeom, addFilesToZip("reserviors", zip))
 
 
     zip.generateAsync({
