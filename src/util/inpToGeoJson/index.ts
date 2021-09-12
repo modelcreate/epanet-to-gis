@@ -44,23 +44,6 @@ export function toGeoJson(inpFile: string): EpanetGeoJSON {
     return readLine(previousValue, currentValue, currentIndex);
   }, epanetData);
 
-  //  const nodeFeatures = Object.values(data.nodes).reduce(
-  //    (previousValue, currentValue, currentIndex) => {
-  //      return previousValue.concat(pointFeature(currentValue));
-  //    },
-  //    [] as NodeLookup[]
-  //  );
-  //
-  //  const linkFeatures = Object.values(data.links).reduce(
-  //    (previousValue, currentValue, currentIndex) => {
-  //      return previousValue.concat(lineFeature(currentValue, data));
-  //    },
-  //    [] as LinkLookup[]
-  //  );
-
-  //  const fc = featureCollection(nodeFeatures.concat(linkFeatures));
-  //  console.log(fc);
-
 
 
   const links = (Object.keys(data.links) as Array<keyof LinkLookup>).reduce(
@@ -75,13 +58,6 @@ export function toGeoJson(inpFile: string): EpanetGeoJSON {
 
       return acc.concat(link)
 
-      //return acc.concat({
-      //  ...link,
-      //  geometry: {
-      //    ...link.geometry,
-      //    coordinates: [usGeometry, ...link.geometry.coordinates, dsGeometry],
-      //  },
-      //});
     },
     [] as LinkFeature[]
   );
@@ -150,52 +126,6 @@ function readLine(
   }
 }
 
-//function pointFeature(node: Node): NodeFeature {
-//  const geometry = {
-//    type: "Point",
-//    coordinates: [node.x, node.y],
-//  };
-//
-//  const props = {
-//    ...node,
-//  };
-//
-//  const test: NodeFeature = {
-//    type: "Feature",
-//    id: node.index,
-//    properties: {},
-//  };
-//
-//  return feature(geometry, props);
-//}
-//
-//function lineFeature(link: Link, epanetData: EpanetData): LinkFeature {
-//  const us = [
-//    epanetData.nodes[link.us_node_id].x,
-//    epanetData.nodes[link.us_node_id].y,
-//  ];
-//  const ds = [
-//    epanetData.nodes[link.ds_node_id].x,
-//    epanetData.nodes[link.ds_node_id].y,
-//  ];
-//
-//  const bends = link.bends
-//    ? [us].concat(link.bends).concat([ds])
-//    : [us].concat([ds]);
-//
-//  const geometry = {
-//    type: "LineString",
-//    coordinates: bends,
-//  };
-//
-//  const props = {
-//    ...link,
-//  };
-//
-//  delete props.bends;
-//
-//  return feature(geometry, props);
-//}
 
 function junctions(
   epanetData: EpanetData,

@@ -54,7 +54,7 @@ import {
   
   // Nodes type properties
   
-  type NodeCategories = "Junction" | "Tank" | "Reservior";
+  export type NodeCategories = "Junction" | "Tank" | "Reservior";
   
   interface NodeProperties {
     type: "Node";
@@ -89,7 +89,7 @@ import {
   
   // Links type properties
   
-  type LinkCategories = "Pipe" | "Valve" | "Pump";
+  export type LinkCategories = "Pipe" | "Valve" | "Pump";
   
   interface LinkProperties {
     type: "Link";
