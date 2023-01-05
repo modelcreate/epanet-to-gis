@@ -44,8 +44,6 @@ export function toGeoJson(inpFile: string): EpanetGeoJSON {
     return readLine(previousValue, currentValue, currentIndex);
   }, epanetData);
 
-
-
   const links = (Object.keys(data.links) as Array<keyof LinkLookup>).reduce(
     (acc, l) => {
       const link = data.links[l];
@@ -53,17 +51,19 @@ export function toGeoJson(inpFile: string): EpanetGeoJSON {
       const usGeometry = data.nodes[usNodeId].geometry.coordinates;
       const dsGeometry = data.nodes[dsNodeId].geometry.coordinates;
 
+      link.geometry.coordinates = [
+        usGeometry,
+        ...link.geometry.coordinates,
+        dsGeometry,
+      ];
 
-      link.geometry.coordinates = [usGeometry, ...link.geometry.coordinates, dsGeometry]
-
-      return acc.concat(link)
-
+      return acc.concat(link);
     },
     [] as LinkFeature[]
   );
 
   if (data.linkIndex === 0 && data.nodeIndex === 0) {
-    throw "Reading INP Failed, no link or nodes found"
+    throw "Reading INP Failed, no link or nodes found";
   }
   if (data.errors.length > 0) {
     console.log(data.errors);
@@ -126,7 +126,6 @@ function readLine(
   }
 }
 
-
 function junctions(
   epanetData: EpanetData,
   currLine: string,
@@ -158,11 +157,10 @@ function junctions(
     },
   };
 
-  epanetData.nodes[id] = junction
-  epanetData.nodeIndex++
+  epanetData.nodes[id] = junction;
+  epanetData.nodeIndex++;
 
-  return epanetData
-
+  return epanetData;
 }
 
 function reservoirs(
@@ -195,10 +193,9 @@ function reservoirs(
     },
   };
 
-  epanetData.nodes[id] = reservior
-  epanetData.nodeIndex++
-  return epanetData
-
+  epanetData.nodes[id] = reservior;
+  epanetData.nodeIndex++;
+  return epanetData;
 }
 
 function tanks(
@@ -207,7 +204,7 @@ function tanks(
   lineNumber: number
 ): EpanetData {
   const data = currLine.split(" ");
-  if (data.length < 7 || data.length > 8) {
+  if (data.length < 7 || data.length > 9) {
     return {
       ...epanetData,
       errors: epanetData.errors.concat(`Error Reading Line ${lineNumber}`),
@@ -312,12 +309,10 @@ function pipes(
     },
   };
 
+  epanetData.links[id] = pipe;
+  epanetData.linkIndex++;
 
-  epanetData.links[id] = pipe
-  epanetData.linkIndex++
-
-  return epanetData
-
+  return epanetData;
 }
 
 function pumps(
@@ -399,11 +394,10 @@ function valves(
     },
   };
 
-  epanetData.links[id] = valve
-  epanetData.linkIndex++
+  epanetData.links[id] = valve;
+  epanetData.linkIndex++;
 
-  return epanetData
-
+  return epanetData;
 }
 
 function coordinates(
@@ -413,7 +407,10 @@ function coordinates(
 ): EpanetData {
   const data = currLine.split(" ");
   if (epanetData.nodes[data[0]] === undefined) {
-    debugger;
+    return {
+      ...epanetData,
+      errors: epanetData.errors.concat(`Error Reading Line ${lineNumber}`),
+    };
   }
 
   const node = epanetData.nodes[data[0]];
