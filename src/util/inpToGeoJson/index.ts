@@ -7,10 +7,8 @@ import EpanetGeoJSON, {
   Pipe,
   Valve,
   Pump,
-  EpanetFeature,
+  ValveType,
 } from "../../interfaces/EpanetGeoJson";
-
-import { link } from "fs";
 
 interface NodeLookup {
   [id: string]: NodeFeature;
@@ -315,6 +313,14 @@ function pipes(
   return epanetData;
 }
 
+interface PumpKeyValues {
+  [x: string | number | symbol]: unknown;
+  head: string | undefined;
+  power: number | undefined;
+  speed: number | undefined;
+  pattern: string | undefined;
+}
+
 function pumps(
   epanetData: EpanetData,
   currLine: string,
@@ -325,7 +331,8 @@ function pumps(
     data.length < 5 ||
     data.length === 6 ||
     data.length === 8 ||
-    data.length > 9
+    data.length === 10 ||
+    data.length > 11
   ) {
     return {
       ...epanetData,
@@ -333,7 +340,57 @@ function pumps(
     };
   }
 
-  const [id, usNodeId, dsNodeId] = data;
+  //Pump2   N121    N55     HEAD Curve1  SPEED 1.2  PATTERN 1 POWER 2.0
+
+  const [
+    id,
+    usNodeId,
+    dsNodeId,
+    key1,
+    value1,
+    key2,
+    value2,
+    key3,
+    value3,
+    key4,
+    value4,
+  ] = data;
+
+  let head = undefined;
+  let power = undefined;
+  let speed = undefined;
+  let pattern = undefined;
+
+  const addKey = (key: string, value: string, obj: PumpKeyValues) => {
+    if (key) {
+      console.log(key, value);
+      obj[key.toLocaleLowerCase()] = value ? value : undefined;
+    }
+  };
+
+  try {
+    const keyValues: PumpKeyValues = {
+      head: undefined,
+      power: undefined,
+      speed: undefined,
+      pattern: undefined,
+    };
+
+    addKey(key1, value1, keyValues);
+    addKey(key2, value2, keyValues);
+    addKey(key3, value3, keyValues);
+    addKey(key4, value4, keyValues);
+
+    console.log(keyValues);
+
+    head = keyValues["head"] ? keyValues["head"] : undefined;
+    power = keyValues["power"] ? keyValues["power"] : undefined;
+    speed = keyValues["speed"] ? keyValues["speed"] : undefined;
+    pattern = keyValues["pattern"] ? keyValues["pattern"] : undefined;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 
   const pump: Pump = {
     type: "Feature",
@@ -348,12 +405,13 @@ function pumps(
       id,
       usNodeId,
       dsNodeId,
-      mode: "Power",
-      power: 2,
-      speed: 1,
-      pattern: "dummy",
+      head,
+      power,
+      speed,
+      pattern,
     },
   };
+  console.log(pump);
 
   return {
     ...epanetData,
@@ -372,7 +430,8 @@ function valves(
 ): EpanetData {
   const data = currLine.split(" ");
 
-  const [id, usNodeId, dsNodeId] = data;
+  const [id, usNodeId, dsNodeId, diameter, valveType, setting, minorLoss] =
+    data;
 
   const valve: Valve = {
     type: "Feature",
@@ -387,10 +446,10 @@ function valves(
       id,
       usNodeId,
       dsNodeId,
-      diameter: 100,
-      valveType: "TCV",
-      setting: 100,
-      minorLoss: 0,
+      diameter: parseFloat(diameter),
+      valveType: valveType as ValveType,
+      setting: parseFloat(setting),
+      minorLoss: parseFloat(minorLoss),
     },
   };
 
