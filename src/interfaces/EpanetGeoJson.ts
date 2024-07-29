@@ -60,6 +60,7 @@ interface NodeProperties {
   type: "Node";
   category: NodeCategories;
   id: string;
+  comment: string;
 }
 
 interface JunctionProperties extends NodeProperties {
@@ -97,6 +98,7 @@ interface LinkProperties {
   id: string;
   usNodeId: string;
   dsNodeId: string;
+  comment: string;
 }
 
 type PipeStatus = "Open" | "Closed" | "CV";

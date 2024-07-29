@@ -91,6 +91,14 @@ function readLine(
     .replace(/\s+/g, " ")
     .trim();
 
+  // get all text after the comment, remove new line characters
+  const comment =
+    commentStart === -1
+      ? ""
+      : unTrimmedCurrentLine
+          .substring(commentStart + 1)
+          .replace(/(\r\n|\n|\r)/gm, "");
+
   // if line starts with ; or is blank skip
   if (currLine[0] === ";" || currLine[0] === "" || currLine[0] === undefined) {
     return epanetData;
@@ -104,21 +112,21 @@ function readLine(
 
   switch (epanetData.currentFunction) {
     case "[JUNCTIONS]":
-      return junctions(epanetData, currLine, lineNumber);
+      return junctions(epanetData, currLine, lineNumber, comment);
     case "[RESERVOIRS]":
-      return reservoirs(epanetData, currLine, lineNumber);
+      return reservoirs(epanetData, currLine, lineNumber, comment);
     case "[PIPES]":
-      return pipes(epanetData, currLine, lineNumber);
+      return pipes(epanetData, currLine, lineNumber, comment);
     case "[VALVES]":
-      return valves(epanetData, currLine, lineNumber);
+      return valves(epanetData, currLine, lineNumber, comment);
     case "[COORDINATES]":
       return coordinates(epanetData, currLine, lineNumber);
     case "[VERTICES]":
       return vertices(epanetData, currLine, lineNumber);
     case "[PUMPS]":
-      return pumps(epanetData, currLine, lineNumber);
+      return pumps(epanetData, currLine, lineNumber, comment);
     case "[TANKS]":
-      return tanks(epanetData, currLine, lineNumber);
+      return tanks(epanetData, currLine, lineNumber, comment);
     default:
       return epanetData;
   }
@@ -127,7 +135,8 @@ function readLine(
 function junctions(
   epanetData: EpanetData,
   currLine: string,
-  lineNumber: number
+  lineNumber: number,
+  comment: string
 ): EpanetData {
   const data = currLine.split(" ");
   if (data.length < 2 || data.length > 4) {
@@ -152,6 +161,7 @@ function junctions(
       elevation: parseFloat(data[1]),
       demand: parseFloat(data[2]),
       pattern: data[3],
+      comment,
     },
   };
 
@@ -164,7 +174,8 @@ function junctions(
 function reservoirs(
   epanetData: EpanetData,
   currLine: string,
-  lineNumber: number
+  lineNumber: number,
+  comment: string
 ): EpanetData {
   const data = currLine.split(" ");
   if (data.length < 2 || data.length > 3) {
@@ -188,6 +199,7 @@ function reservoirs(
       id,
       head: parseFloat(data[1]),
       pattern: data[2],
+      comment,
     },
   };
 
@@ -199,7 +211,8 @@ function reservoirs(
 function tanks(
   epanetData: EpanetData,
   currLine: string,
-  lineNumber: number
+  lineNumber: number,
+  comment: string
 ): EpanetData {
   const data = currLine.split(" ");
   if (data.length < 7 || data.length > 9) {
@@ -230,6 +243,7 @@ function tanks(
       minVolume: parseFloat(data[6]),
       volCurve: data[7],
       overflow: data[8] ? data[8].toLowerCase() === "true" : undefined,
+      comment,
     },
   };
 
@@ -246,7 +260,8 @@ function tanks(
 function pipes(
   epanetData: EpanetData,
   currLine: string,
-  lineNumber: number
+  lineNumber: number,
+  comment: string
 ): EpanetData {
   const data = currLine.split(" ");
   if (data.length < 6 || data.length > 8) {
@@ -304,6 +319,7 @@ function pipes(
       roughness: parseFloat(roughness),
       minorLoss: parseFloat(minorLoss),
       status,
+      comment,
     },
   };
 
@@ -324,7 +340,8 @@ interface PumpKeyValues {
 function pumps(
   epanetData: EpanetData,
   currLine: string,
-  lineNumber: number
+  lineNumber: number,
+  comment: string
 ): EpanetData {
   const data = currLine.split(" ");
   if (
@@ -409,6 +426,7 @@ function pumps(
       power,
       speed,
       pattern,
+      comment,
     },
   };
   console.log(pump);
@@ -426,7 +444,8 @@ function pumps(
 function valves(
   epanetData: EpanetData,
   currLine: string,
-  lineNumber: number
+  lineNumber: number,
+  comment: string
 ): EpanetData {
   const data = currLine.split(" ");
 
@@ -450,6 +469,7 @@ function valves(
       valveType: valveType as ValveType,
       setting: parseFloat(setting),
       minorLoss: parseFloat(minorLoss),
+      comment,
     },
   };
 
